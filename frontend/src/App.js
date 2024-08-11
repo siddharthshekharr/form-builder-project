@@ -1,6 +1,6 @@
 // frontend/src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
@@ -11,12 +11,12 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/dashboard" component={Dashboard} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
       </Router>
     </AuthProvider>
   );

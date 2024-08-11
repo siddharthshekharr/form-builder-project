@@ -1,6 +1,6 @@
 // frontend/src/components/Auth/Login.js
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import { AuthContext } from '../../context/AuthContext';
 import styles from '../../styles/auth.module.css';
@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ const Login = () => {
       const res = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       setUser({ token: res.data.token });
-      history.push('/dashboard');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred');
     }
