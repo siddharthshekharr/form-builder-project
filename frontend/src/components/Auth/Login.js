@@ -1,6 +1,7 @@
 // src/components/Auth/Login.js
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContext';
 import api from '../../utils/api';
 import styles from '../../styles/auth.module.css';
@@ -8,7 +9,6 @@ import styles from '../../styles/auth.module.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
 
@@ -18,9 +18,10 @@ const Login = () => {
       const response = await api.post('/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
       setUser({ token: response.data.token });
+      toast.success('Login successful!');
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred during login');
+      toast.error(err.response?.data?.message || 'An error occurred during login');
     }
   };
 
@@ -52,7 +53,6 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          {error && <p className={styles.error}>{error}</p>}
           <button type="submit" className={styles.submitButton}>Log in</button>
         </form>
         <p className={styles.switchPrompt}>
