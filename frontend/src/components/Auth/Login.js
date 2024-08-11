@@ -1,8 +1,8 @@
-// frontend/src/components/Auth/Login.js
+// src/components/Auth/Login.js
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../utils/api';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import api from '../../utils/api';
 import styles from '../../styles/auth.module.css';
 
 const Login = () => {
@@ -26,25 +26,41 @@ const Login = () => {
 
   return (
     <div className={styles.authContainer}>
-      <h2>Login</h2>
-      {error && <p className={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit} className={styles.authForm}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
+      <Link to="/" className={styles.backButton}>←</Link>
+      <div className={styles.authForm}>
+        <div className={styles.logoTriangle}></div>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Enter your password"
+            />
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button type="submit" className={styles.submitButton}>Log in</button>
+        </form>
+        <p className={styles.switchPrompt}>
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
+      </div>
+      <div className={styles.decorCircle1}></div>
+      <div className={styles.decorCircle2}></div>
     </div>
   );
 };
