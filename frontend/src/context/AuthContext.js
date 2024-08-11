@@ -1,5 +1,7 @@
-// frontend/src/context/AuthContext.js
+// src/context/AuthContext.js
+
 import React, { createContext, useState, useEffect } from 'react';
+import api from '../utils/api';
 
 export const AuthContext = createContext();
 
@@ -8,12 +10,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // TODO: Implement token verification with backend
-      setUser({ token });
-    }
-    setLoading(false);
+    const checkLoggedIn = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          const res = await api.get('/auth/me');
+          setUser(res.data);
+        } catch (error) {
+          localStorage.removeItem('token');
+          delete api.defaults.headers.common['Authorization'];
+        }
+      }
+      setLoading(false);
+    };
+
+    checkLoggedIn();
   }, []);
 
   return (

@@ -1,7 +1,8 @@
 // src/components/Auth/Register.js
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 import api from '../../utils/api';
 import styles from '../../styles/auth.module.css';
 
@@ -10,6 +11,14 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      toast.info('You are already logged in.');
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
