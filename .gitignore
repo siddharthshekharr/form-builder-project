@@ -64,3 +64,4 @@ Thumbs.db
 
 # Optional: database files if you're using SQLite
 *.sqlite
+.vercel

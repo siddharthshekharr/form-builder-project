@@ -16,12 +16,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/register', { name, email, password });
-      localStorage.setItem('token', res.data.token);
-      setUser({ token: res.data.token });
+      const response = await api.post('/auth/register', { name, email, password });
+      localStorage.setItem('token', response.data.token);
+      setUser({ token: response.data.token });
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred');
+      setError(err.response?.data?.message || 'An error occurred during registration');
     }
   };
 
